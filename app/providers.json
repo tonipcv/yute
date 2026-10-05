@@ -1,0 +1,42 @@
+{
+  "providers": [
+    {
+      "id": "example-http-provider",
+      "enabled": false,
+      "supports": ["name", "domain", "email"],
+      "method": "POST",
+      "url": "https://api.example.com/v1/find",
+      "headers": { "X-API-Key": "${EXAMPLE_API_KEY}" },
+      "body": { "full_name": "{{name}}", "domain": "{{domain}}", "email": "{{email}}" },
+      "result": { "email": "data.email", "fullName": "data.name", "role": "data.title", "company": "data.company" },
+      "costMicroUsd": 10000,
+      "confidence": 65
+    },
+    {
+      "id": "leadmagic-phone",
+      "enabled": false,
+      "supports": ["phone", "name", "email"],
+      "method": "POST",
+      "url": "https://api.leadmagic.io/v1/people/mobile-finder",
+      "headers": { "X-API-Key": "${LEADMAGIC_API_KEY}" },
+      "body": { "email": "{{email}}", "full_name": "{{name}}", "domain": "{{domain}}" },
+      "result": { "phone": "mobile_number", "lineType": "line_type", "verified": "verified" },
+      "costMicroUsd": 100000,
+      "confidence": 80,
+      "sourceNote": "leadmagic mobile finder (pay per hit)"
+    },
+    {
+      "id": "1lookup-mobile",
+      "enabled": false,
+      "supports": ["phone", "name", "email"],
+      "method": "POST",
+      "url": "https://api.1lookup.io/v1/mobile-finder",
+      "headers": { "Authorization": "Bearer ${ONELOOKUP_API_KEY}" },
+      "body": { "work_email": "{{email}}", "profile_url": "{{linkedin}}" },
+      "result": { "phone": "mobile_number", "matched": "matched" },
+      "costMicroUsd": 90000,
+      "confidence": 78,
+      "sourceNote": "1lookup mobile finder (pay per match)"
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+  plan          String    @default("free")
+  creditBalance Int       @default(100)
+  monthlyLimit  Int       @default(100)
+
+  apiKeys  ApiKey[]
+  requests RequestLog[]
+  ledger   CreditLedger[]
+  jobs     EnrichmentJob[]
+  webhooks WebhookEndpoint[]
+  stripeCustomerId String?
+}
+
+model PasswordReset {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model ApiKey {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name       String
+  keyHash    String    @unique
+  prefix     String
+  last4      String
+  scope      String    @default("lookup:read")
+  createdAt  DateTime  @default(now())
+  lastUsedAt DateTime?
+  revokedAt  DateTime?
+
+  requests RequestLog[]
+
+  @@index([userId])
+}
+
+model RequestLog {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  apiKeyId     String?
+  apiKey       ApiKey?  @relation(fields: [apiKeyId], references: [id], onDelete: SetNull)
+  queryType    String
+  query        String
+  ok           Boolean  @default(true)
+  ms           Int      @default(0)
+  mode          String?
+  source        String?
+  provider      String?
+  confidence    Int?
+  cacheHit      Boolean  @default(false)
+  costMicroUsd  Int      @default(0)
+  priceMicroUsd Int      @default(0)
+  creditsCharged Int     @default(0)
+  jobId         String?
+  createdAt     DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model CreditLedger {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  delta          Int
+  reason         String
+  requestId      String?
+  idempotencyKey String?   @unique
+  balanceAfter   Int
+  createdAt      DateTime  @default(now())
+
+  @@index([userId, createdAt])
+}
+
+/// One row per Stripe webhook event; unique(eventId) makes credit-granting idempotent.
+model StripeEvent {
+  id          String   @id @default(cuid())
+  eventId     String   @unique
+  type        String
+  sessionId   String?
+  userId      String?
+  credits     Int      @default(0)
+  amountCents Int      @default(0)
+  currency    String?
+  processedAt DateTime @default(now())
+
+  @@index([sessionId])
+}
+
+model EnrichmentJob {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  apiKeyId       String?
+  queryType      String
+  query          String
+  status         String   @default("queued")
+  result         Json?
+  error          String?
+  mode           String?
+  confidence     Int      @default(0)
+  costMicroUsd   Int      @default(0)
+  creditsCharged Int      @default(0)
+  creditsReserved Int     @default(1)
+  attempts       Int      @default(0)
+  startedAt      DateTime?
+  webhookUrl     String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([status, startedAt])
+  @@index([userId, createdAt])
+}
+
+model WebhookEndpoint {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  url       String
+  secret    String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model ProviderStat {
+  id           String   @id @default(cuid())
+  user          String
+  provider      String
+  outcome       String
+  costMicroUsd  Int      @default(0)
+  ms            Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  @@index([user, createdAt])
+  @@index([provider, createdAt])
+}
+
+model EnrichmentCache {
+  id           String   @id @default(cuid())
+  key          String   @unique
+  queryType    String
+  query        String
+  result       Json
+  sources      Json
+  confidence   Int      @default(0)
+  mode         String?
+  costMicroUsd Int      @default(0)
+  createdAt    DateTime @default(now())
+  expiresAt    DateTime
+
+  @@index([expiresAt])
+}
