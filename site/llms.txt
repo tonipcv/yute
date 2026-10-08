@@ -10,6 +10,7 @@
 - **CRM enrichment**: yute enrich resolves any email or domain into a fresh person/company profile (name, role, company, LinkedIn) for CRM hydration and outbound sales, with bulk async jobs and webhooks.
 - **KYB (Know Your Business)**: yute KYB verifies that a B2B company signing up actually exists and who is behind it - domain age, mail servers, registry/press traces and decision-makers - as a fast pre-filter before document-based review.
 - **Email health**: SMTP-level validation of any address (deliverability, disposable, catch-all, MX) so outbound campaigns avoid bounces; included in every enrichment lookup.
+- **Breach exposure (beta)**: whether a signup email appears in public data breaches - which ones, when, data classes, recent-leak flag - as an account-takeover/fraud signal
 - Built for developers: cURL-first, clean JSON, no SDK lock-in.
 
 # Key facts
@@ -25,6 +26,7 @@
 - [Enrich / CRM hydration](https://yute.io/enrich): Person and company enrichment for CRM and outbound, via one API call.
 - [KYB](https://yute.io/kyb): Business verification at B2B onboarding in one API call.
 - [Email health](https://yute.io/email-health): SMTP deliverability validation for outbound lists.
+- [Breach (beta)](https://yute.io/breach): Leaked-credential exposure signals for trust teams (in beta).
 - [Pricing](https://yute.io/pricing): Pay per lookup - 100 free, then $50/1k, $450/10k, $3,500/100k. Free misses, one-time packs never expire.
 - [Register](https://yute.heuv.dev/register): Create a workspace (email + password, self-serve).
 - [Docs](https://yute.heuv.dev/docs): Public API documentation.
