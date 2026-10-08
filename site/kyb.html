@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yute KYB — verify businesses at onboarding in one API call</title>
+  <meta name="description" content="yute KYB checks a business actually exists before your platform moves money: domain age, mail servers, live web presence, company registry traces and the human behind it. Days to seconds, per-lookup pricing." />
+  <meta name="robots" content="index, follow, max-snippet:-1" />
+  <link rel="canonical" href="https://yute.io/kyb" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yute.io/kyb" />
+  <meta property="og:site_name" content="yute" />
+  <meta property="og:title" content="yute KYB — Know Your Business API" />
+  <meta property="og:description" content="Does this business exist? Domain age, mail servers, registry traces, web presence and the human behind it - in seconds." />
+  <meta property="og:image" content="https://yute.io/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="yute KYB — Know Your Business API" />
+  <meta name="twitter:description" content="Does this business exist? Verify in seconds, not days." />
+  <meta name="twitter:image" content="https://yute.io/og.png" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f6f6f1" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://yute.io/kyb#app",
+        "name": "yute KYB",
+        "url": "https://yute.io/kyb",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "description": "Know Your Business API: verify companies at B2B onboarding - domain age and MX validity, live web presence, company registry traces, and the decision-makers behind the domain. Resolved with live web search. Per-lookup pricing, free misses.",
+        "publisher": { "@id": "https://yute.io/#organization" },
+        "featureList": [
+          "Company existence check by domain, email or company name",
+          "Domain age and DNS validity signals",
+          "MX and SMTP checks - does the claimed company actually receive mail?",
+          "Live web presence: registry traces, press, professional profiles",
+          "Decision-maker identity linking - who owns and runs this domain",
+          "Per-lookup credits; unresolved lookups are free"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://yute.io/kyb#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is KYB?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Know Your Business: verifying that a business signing up to your platform is real, active, and who it belongs to - the B2B counterpart of KYC. Traditional KYB relies on documents and registry lookups that take days per company." }
+          },
+          {
+            "@type": "Question",
+            "name": "What does yute check during KYB?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Domain age and DNS validity, whether the company's domain actually receives mail (MX/SMTP), live web signals - registry traces, press, professional profiles - and who the decision-makers behind the domain are." }
+          },
+          {
+            "@type": "Question",
+            "name": "How fast does yute KYB run?",
+            "acceptedAnswer": { "@type": "Answer", "text": "One API call returns structured signals with sources in under a second - against the days a document-based KYB process takes per company." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --sand: #ffffff;
+      --ink: #1f2322;
+      --teal: #73a89a;
+      --red: #c25b4e;
+      --text: clamp(17px, 0.55vw + 12px, 22px);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { background: var(--sand); }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--sand);
+      color: var(--ink);
+      font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: var(--text);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+
+    ::selection { background: var(--ink); color: var(--sand); }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+
+    .shell {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(16px, 3vw, 32px);
+    }
+
+    header { flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; }
+    header .mark { display: block; width: 26px; }
+    header .mark svg { display: block; width: 100%; height: auto; }
+    header nav { display: flex; gap: 16px; font-size: clamp(0.68rem, 1.1vw, 0.85rem); }
+    header nav a:hover { color: var(--teal); }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(72px, 9vw, 128px);
+      padding-top: clamp(56px, 9vw, 96px);
+    }
+
+    .column {
+      max-width: 41rem;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .intro { display: flex; flex-direction: column; gap: 1em; }
+    .intro h1 { font-size: inherit; line-height: inherit; font-weight: 600; }
+    .intro .tag { font-size: clamp(0.68rem, 1.1vw, 0.85rem); color: var(--teal); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .intro .after { display: flex; flex-direction: column; gap: 1em; }
+    .accent { color: var(--teal); font-weight: 600; }
+
+    .cta {
+      margin: 24px auto 0;
+      display: inline-block;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: 600;
+      transition: color 160ms ease;
+    }
+    .cta:hover { color: var(--teal); }
+    .cta-group { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .cta-secondary { font-size: clamp(0.68rem, 1.1vw, 0.85rem); opacity: 0.75; }
+    .cta-secondary:hover { color: var(--teal); opacity: 1; }
+    .cta__brush {
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 4%;
+      width: 92%;
+      height: 0.7em;
+      rotate: -2.5deg;
+      pointer-events: none;
+    }
+
+    .topic { display: flex; flex-direction: column; gap: 1em; }
+    .topic h2 {
+      font-size: inherit;
+      font-weight: 600;
+      line-height: inherit;
+      letter-spacing: inherit;
+    }
+    .topic ul { list-style: none; display: flex; flex-direction: column; gap: 0.5em; }
+    .topic ul li { text-align: left; padding-left: 1.4em; position: relative; }
+    .topic ul li::before { content: "→"; position: absolute; left: 0; color: var(--teal); }
+
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: clamp(0.72rem, 1.15vw, 0.9rem);
+      line-height: 1.5;
+    }
+    pre {
+      text-align: left;
+      background: rgba(31,35,34,0.92);
+      color: #e8ede7;
+      border-radius: 10px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: clamp(0.75rem, 1.2vw, 0.95rem); }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(31,35,34,0.12); }
+    th { font-weight: 600; }
+    td:first-child { color: rgba(31,35,34,0.65); }
+
+    .qa { display: flex; flex-direction: column; gap: clamp(40px, 5vw, 56px); }
+    .qa h3 {
+      font-size: inherit;
+      font-weight: 600;
+      line-height: inherit;
+      letter-spacing: inherit;
+      margin-bottom: 0.4em;
+    }
+
+    footer {
+      flex-shrink: 0;
+      padding-top: clamp(64px, 8vw, 96px);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 12px 32px;
+      font-size: clamp(0.68rem, 1.1vw, 0.85rem);
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    footer nav { display: flex; justify-content: flex-end; gap: 16px; }
+    footer a:hover { color: var(--teal); }
+
+    @media (max-width: 480px) {
+      footer { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+
+    <header>
+      <a href="/" class="mark" aria-label="yute home">
+        <svg viewBox="0 0 40 56" fill="none" role="img" aria-hidden="true">
+          <path d="M9 1.5 C 11.5 12, 15.5 19, 19.5 25.5" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <path d="M31.5 1 C 27 11, 23 19.5, 19.8 25.3" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <path d="M19.5 25.5 C 18 36, 15.5 45, 12.5 54.5" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <circle cx="32.5" cy="30" r="0.5" fill="var(--ink)"/>
+        </svg>
+      </a>
+      <nav>
+        <a href="/">yute</a>
+        <a href="/fraud">fraud</a>
+        <a href="/enrich">enrich</a>
+        <a href="https://yute.heuv.dev/docs">API docs</a>
+      </nav>
+    </header>
+
+    <main>
+
+      <div class="column intro" id="intro">
+        <span class="tag">yute kyb</span>
+        <h1>Before your platform moves money for a "company", make sure the company exists.</h1>
+        <div class="after">
+          <p>One API call on the domain or email your merchant gives you: <span class="accent">domain age</span>, <span class="accent">mail servers that exist</span>, <span class="accent">registry and press traces</span>, and the <span class="accent">people behind the domain</span>. Evidence included, not just a pass/fail.</p>
+          <p>Fake vendors, shell companies and typo-squatted "suppliers" get caught at signup - before the first payout, refund dispute, or chargeback lands on you.</p>
+        </div>
+        <div class="cta-group">
+          <a class="cta" href="https://yute.heuv.dev/register">
+            <span>Verify your first 100 companies free</span>
+            <svg class="cta__brush" viewBox="0 0 1711 244" preserveAspectRatio="none" aria-hidden="true">
+              <path fill="#73a89a" d="M18 96 C 160 68, 340 96, 520 80 C 740 60, 920 106, 1120 88 C 1320 70, 1480 110, 1690 84 C 1700 100, 1702 122, 1694 144 C 1480 168, 1320 128, 1120 150 C 920 172, 740 120, 520 146 C 340 168, 160 136, 24 158 C 10 136, 8 116, 18 96 Z"/>
+            </svg>
+          </a>
+          <a class="cta-secondary" href="https://yute.heuv.dev/docs">Read the API docs</a>
+        </div>
+      </div>
+
+      <div class="column topic" id="example">
+        <h2>Signup data becomes real signals</h2>
+<pre>$ curl "https://yute.heuv.dev/v1/lookup?domain=acmelogistics.com"
+
+{
+  "company":     "Acme Logistics",
+  "domain_age":  "2 years",
+  "mx":          "valid",
+  "email_status": { "smtp": "deliverable", "catch_all": false },
+  "people":      "decision-makers resolved from web",
+  "sources":     6,
+  "confidence":  0.91
+}</pre>
+        <p>Run it on every B2B signup. Low-confidence or suspicious rows get flagged to your review queue with the full evidence trail attached.</p>
+      </div>
+
+      <div class="column topic" id="signals">
+        <h2>What we check, and why it works</h2>
+        <ul>
+          <li><strong>Domain&nbsp;age&nbsp;&amp;&nbsp;DNS</strong> - a "logistics company" whose domain was registered 12 days ago is a conversation starter, not a buyer.</li>
+          <li><strong>Mail&nbsp;servers</strong> - real companies receive email. Domains without working MX are a classic mask for cold-contact fronts.</li>
+          <li><strong>Registry&nbsp;&amp;&nbsp;press&nbsp;traces</strong> - incorporation mentions, business directories, news. Shells leave gaps where real companies leave records.</li>
+          <li><strong>People&nbsp;behind&nbsp;the&nbsp;domain</strong> - links the business to actual decision-makers; person and company checks reinforce each other.</li>
+          <li><strong>Evidence&nbsp;with&nbsp;every&nbsp;signal</strong> - auditors see the sources, so false positives are a review, not a dead end.</li>
+        </ul>
+      </div>
+
+      <div class="column topic" id="compare">
+        <h2>Document KYB vs yute KYB</h2>
+        <table>
+          <thead>
+            <tr><th></th><th>Document KYB</th><th>yute KYB</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Speed</td><td>Days per company</td><td>Under a second</td></tr>
+            <tr><td>Coverage</td><td>Jurisdiction-dependent</td><td>Any company with a web footprint</td></tr>
+            <tr><td>Pre-filter</td><td>None - everything queued</td><td>Suspects flagged before manual review</td></tr>
+            <tr><td>Ongoing monitoring</td><td>Re-review per event</td><td>Re-check any domain, any time</td></tr>
+            <tr><td>Pricing</td><td>Per-report, enterprise</td><td>Per lookup, free misses</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="column qa" id="faq">
+        <div>
+          <h3>What is KYB?</h3>
+          <p>Know Your Business: verifying that a business signing up to your platform is real, active, and who it belongs to - the B2B counterpart of KYC.</p>
+        </div>
+        <div>
+          <h3>Does yute replace registry lookups?</h3>
+          <p>No - and you may still need local registry filings for regulated activity. yute is the fast layer in front: it filters obvious fakes at signup so manual or document-based review happens only where it matters.</p>
+        </div>
+        <div>
+          <h3>How fast does yute KYB run?</h3>
+          <p>One API call returns structured signals with sources in under a second - against days per company for document-based processes.</p>
+        </div>
+        <div>
+          <h3>How do I start?</h3>
+          <p><a href="https://yute.heuv.dev/register">Create a free account</a> - your first 100 lookups are on us, no card needed.</p>
+        </div>
+      </div>
+
+    </main>
+
+    <footer>
+      <span>Copyright &copy; 2026 yute</span>
+      <nav aria-label="Footer">
+        <a href="/">yute</a>
+        <a href="mailto:hello@yute.io">hello[at]yute[dot]io</a>
+      </nav>
+    </footer>
+
+  </div>
+</body>
+</html>
