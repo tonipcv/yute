@@ -25,6 +25,7 @@
 - [Enrich / CRM hydration](https://yute.io/enrich): Person and company enrichment for CRM and outbound, via one API call.
 - [KYB](https://yute.io/kyb): Business verification at B2B onboarding in one API call.
 - [Email health](https://yute.io/email-health): SMTP deliverability validation for outbound lists.
+- [Pricing](https://yute.io/pricing): Pay per lookup - 100 free, then $50/1k, $450/10k, $3,500/100k. Free misses, one-time packs never expire.
 - [Register](https://yute.heuv.dev/register): Create a workspace (email + password, self-serve).
 - [Docs](https://yute.heuv.dev/docs): Public API documentation.
 

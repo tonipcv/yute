@@ -143,6 +143,9 @@
     header { flex-shrink: 0; }
     header .mark { display: block; width: 26px; margin-inline: auto; }
     header .mark svg { display: block; width: 100%; height: auto; }
+    header nav { display: flex; justify-content: center; gap: 16px; margin-top: 14px; font-size: clamp(0.68rem, 1.1vw, 0.85rem); }
+    header nav a { opacity: 0.75; transition: color 160ms ease, opacity 160ms ease; }
+    header nav a:hover { color: var(--teal); opacity: 1; }
 
     main {
       flex: 1;
@@ -234,6 +237,13 @@
           <circle cx="32.5" cy="30" r="0.5" fill="var(--ink)"/>
         </svg>
       </a>
+      <nav aria-label="Products">
+        <a href="/enrich">enrich</a>
+        <a href="/fraud">fraud</a>
+        <a href="/kyb">kyb</a>
+        <a href="/email-health">email health</a>
+        <a href="/pricing">pricing</a>
+      </nav>
     </header>
 
     <main>

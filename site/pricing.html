@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yute pricing — pay per lookup, free misses</title>
+  <meta name="description" content="1200 free credit on signup. Then pay per lookup: $50 per 1,000 lookups, $450 per 10,000, $3,500 per 100,000. Invalid results are free. No subscription, no credit pool." />
+  <meta name="robots" content="index, follow, max-snippet:-1" />
+  <link rel="canonical" href="https://yute.io/pricing" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yute.io/pricing" />
+  <meta property="og:site_name" content="yute" />
+  <meta property="og:title" content="yute pricing — pay per lookup" />
+  <meta property="og:description" content="Free to start. Then per lookup: $50/1k · $450/10k · $3,500/100k. Misses are free." />
+  <meta property="og:image" content="https://yute.io/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="yute pricing — pay per lookup" />
+  <meta name="twitter:description" content="Free to start. Then per lookup. Misses are free." />
+  <meta name="twitter:image" content="https://yute.io/og.png" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f6f6f1" />
+
+  <style>
+    :root {
+      --sand: #ffffff;
+      --ink: #1f2322;
+      --teal: #73a89a;
+      --text: clamp(17px, 0.55vw + 12px, 22px);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { background: var(--sand); }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--sand);
+      color: var(--ink);
+      font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: var(--text);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+
+    ::selection { background: var(--ink); color: var(--sand); }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+
+    .shell {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(16px, 3vw, 32px);
+    }
+
+    header { flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; }
+    header .mark { display: block; width: 26px; }
+    header .mark svg { display: block; width: 100%; height: auto; }
+    header nav { display: flex; gap: 16px; font-size: clamp(0.68rem, 1.1vw, 0.85rem); }
+    header nav a { opacity: 0.75; }
+    header nav a:hover { color: var(--teal); opacity: 1; }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(56px, 7vw, 96px);
+      padding-top: clamp(56px, 9vw, 96px);
+    }
+
+    .column {
+      max-width: 41rem;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .intro h1 { font-size: inherit; line-height: inherit; font-weight: 600; }
+    .intro { display: flex; flex-direction: column; gap: 1em; }
+    .intro .note { opacity: 0.75; font-size: clamp(0.72rem, 1.15vw, 0.9rem); }
+
+    table { width: 100%; border-collapse: collapse; font-size: clamp(0.78rem, 1.25vw, 1rem); }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid rgba(31,35,34,0.12); }
+    th { font-weight: 600; }
+    td:last-child, th:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+    td.beat { font-weight: 600; }
+
+    .cta {
+      margin: 28px auto 0;
+      display: inline-block;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: 600;
+      transition: color 160ms ease;
+    }
+    .cta:hover { color: var(--teal); }
+    .cta__brush {
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 4%;
+      width: 92%;
+      height: 0.7em;
+      rotate: -2.5deg;
+      pointer-events: none;
+    }
+
+    .fineprint { text-align: center; opacity: 0.65; font-size: clamp(0.68rem, 1.1vw, 0.85rem); }
+
+    footer {
+      flex-shrink: 0;
+      padding-top: clamp(64px, 8vw, 96px);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 12px 32px;
+      font-size: clamp(0.68rem, 1.1vw, 0.85rem);
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    footer nav { display: flex; justify-content: flex-end; gap: 16px; }
+    footer a:hover { color: var(--teal); }
+
+    @media (max-width: 480px) {
+      footer { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+
+    <header>
+      <a href="/" class="mark" aria-label="yute home">
+        <svg viewBox="0 0 40 56" fill="none" role="img" aria-hidden="true">
+          <path d="M9 1.5 C 11.5 12, 15.5 19, 19.5 25.5" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <path d="M31.5 1 C 27 11, 23 19.5, 19.8 25.3" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <path d="M19.5 25.5 C 18 36, 15.5 45, 12.5 54.5" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <circle cx="32.5" cy="30" r="0.5" fill="var(--ink)"/>
+        </svg>
+      </a>
+      <nav aria-label="Products">
+        <a href="/enrich">enrich</a>
+        <a href="/fraud">fraud</a>
+        <a href="/kyb">kyb</a>
+        <a href="/email-health">email health</a>
+        <a href="/pricing">pricing</a>
+      </nav>
+    </header>
+
+    <main>
+
+      <div class="column intro" id="intro">
+        <h1>No subscription. No credit pool. Pay per lookup.</h1>
+        <p class="note">Free misses. Every unresolved query costs nothing.</p>
+        <table>
+          <thead>
+            <tr><th></th><th>Lookups</th><th>Price</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>First lookups</td><td>100</td><td class="beat">Free</td></tr>
+            <tr><td>Starter pack</td><td>1,000</td><td class="beat">$50</td></tr>
+            <tr><td>Growth pack</td><td>10,000</td><td class="beat">$450</td></tr>
+            <tr><td>Scale pack</td><td>100,000</td><td class="beat">$3,500</td></tr>
+          </tbody>
+        </table>
+        <a class="cta" href="https://yute.heuv.dev/register">
+          <span>Start free - 100 lookups, no card</span>
+          <svg class="cta__brush" viewBox="0 0 1711 244" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#73a89a" d="M18 96 C 160 68, 340 96, 520 80 C 740 60, 920 106, 1120 88 C 1320 70, 1480 110, 1690 84 C 1700 100, 1702 122, 1694 144 C 1480 168, 1320 128, 1120 150 C 920 172, 740 120, 520 146 C 340 168, 160 136, 24 158 C 10 136, 8 116, 18 96 Z"/>
+          </svg>
+        </a>
+        <p class="note">One credit = one resolved lookup. Phone lookups bill more credits (provider cost). Packs are one-time, never expire, and stack.</p>
+      </div>
+
+    </main>
+
+    <footer>
+      <span>Copyright &copy; 2026 yute</span>
+      <nav aria-label="Footer">
+        <a href="/">yute</a>
+        <a href="mailto:hello@yute.io">hello[at]yute[dot]io</a>
+      </nav>
+    </footer>
+
+  </div>
+</body>
+</html>
