@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yute enrich — hydrate your CRM with person &amp; company data in one API call</title>
+  <meta name="description" content="yute enrich fills your CRM with real person and company data from email or domain: role, location, company size, social profile - resolved with live web search, not a stale provider database. Per-lookup pricing, free misses." />
+  <meta name="robots" content="index, follow, max-snippet:-1" />
+  <link rel="canonical" href="https://yute.io/enrich" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yute.io/enrich" />
+  <meta property="og:site_name" content="yute" />
+  <meta property="og:title" content="yute enrich — CRM hydration API" />
+  <meta property="og:description" content="Fill your CRM with real person and company data: role, location, LinkedIn, company size. Live web search, per-lookup pricing, free misses." />
+  <meta property="og:image" content="https://yute.io/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="yute enrich — CRM hydration API" />
+  <meta name="twitter:description" content="Your CRM, hydrated. Person and company data via one API call." />
+  <meta name="twitter:image" content="https://yute.io/og.png" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f6f6f1" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://yute.io/enrich#app",
+        "name": "yute enrich",
+        "url": "https://yute.io/enrich",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "description": "CRM hydration and lead enrichment API: resolve any email or company domain into role, location, company, LinkedIn and verified work email. Resolved with live web search at request time instead of a stale provider database. Per-lookup pricing, free misses.",
+        "publisher": { "@id": "https://yute.io/#organization" },
+        "featureList": [
+          "Resolve email or domain into full person/company profile",
+          "Live web search at request time - fresh data, not a stale DB",
+          "Every email validated (format, domain, SMTP deliverability) before delivery",
+          "Bulk enrichment via async jobs with webhooks",
+          "Per-lookup credits; unresolved lookups are free",
+          "Works in Zapier, Clay, n8n, Make or any HTTP client"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://yute.io/enrich#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How is yute enrich different from Clearbit or Clay?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Provider databases sell the same snapshot to thousands of companies - your CRM gets the same lifecycle-worn rows y your competitors. yute resolves each query with live web search at request time, so candidate data reflects the web as it is today. And you pay per lookup, not for a monthly data subscription." }
+          },
+          {
+            "@type": "Question",
+            "name": "What does enrichment cost?",
+            "acceptedAnswer": { "@type": "Answer", "text": "One credit per resolved lookup. Misses are free; you never pay for a person yute could not find. Starting with 100 free lookups, no card required." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I enrich a whole CRM list?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. POST /v1/enrich uploads a list as an async job and yute webhooks you the enriched rows as they resolve - thousands at a time without you babysitting the request." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --sand: #ffffff;
+      --ink: #1f2322;
+      --teal: #73a89a;
+      --red: #c25b4e;
+      --text: clamp(17px, 0.55vw + 12px, 22px);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { background: var(--sand); }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--sand);
+      color: var(--ink);
+      font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: var(--text);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+
+    ::selection { background: var(--ink); color: var(--sand); }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+
+    .shell {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(16px, 3vw, 32px);
+    }
+
+    header { flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; }
+    header .mark { display: block; width: 26px; }
+    header .mark svg { display: block; width: 100%; height: auto; }
+    header nav { display: flex; gap: 16px; font-size: clamp(0.68rem, 1.1vw, 0.85rem); }
+    header nav a:hover { color: var(--teal); }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(72px, 9vw, 128px);
+      padding-top: clamp(56px, 9vw, 96px);
+    }
+
+    .column {
+      max-width: 41rem;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .intro { display: flex; flex-direction: column; gap: 1em; }
+    .intro h1 { font-size: inherit; line-height: inherit; font-weight: 600; }
+    .intro .tag { font-size: clamp(0.68rem, 1.1vw, 0.85rem); color: var(--teal); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .intro .after { display: flex; flex-direction: column; gap: 1em; }
+
+    .cta {
+      margin: 24px auto 0;
+      display: inline-block;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: 600;
+      transition: color 160ms ease;
+    }
+    .cta:hover { color: var(--teal); }
+    .cta-group { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .cta-secondary { font-size: clamp(0.68rem, 1.1vw, 0.85rem); opacity: 0.75; }
+    .cta-secondary:hover { color: var(--teal); opacity: 1; }
+    .cta__brush {
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 4%;
+      width: 92%;
+      height: 0.7em;
+      rotate: -2.5deg;
+      pointer-events: none;
+    }
+
+    .topic { display: flex; flex-direction: column; gap: 1em; }
+    .topic h2 {
+      font-size: inherit;
+      font-weight: 600;
+      line-height: inherit;
+      letter-spacing: inherit;
+    }
+    .topic ul { list-style: none; display: flex; flex-direction: column; gap: 0.5em; }
+    .topic ul li { text-align: left; padding-left: 1.4em; position: relative; }
+    .topic ul li::before { content: "→"; position: absolute; left: 0; color: var(--teal); }
+
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: clamp(0.72rem, 1.15vw, 0.9rem);
+      line-height: 1.5;
+    }
+    pre {
+      text-align: left;
+      background: rgba(31,35,34,0.92);
+      color: #e8ede7;
+      border-radius: 10px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    pre .sub { color: #9fb8ab; }
+
+    table { width: 100%; border-collapse: collapse; font-size: clamp(0.75rem, 1.2vw, 0.95rem); }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(31,35,34,0.12); }
+    th { font-weight: 600; }
+    td:first-child { color: rgba(31,35,34,0.65); }
+
+    .qa { display: flex; flex-direction: column; gap: clamp(40px, 5vw, 56px); }
+    .qa h3 {
+      font-size: inherit;
+      font-weight: 600;
+      line-height: inherit;
+      letter-spacing: inherit;
+      margin-bottom: 0.4em;
+    }
+
+    footer {
+      flex-shrink: 0;
+      padding-top: clamp(64px, 8vw, 96px);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 12px 32px;
+      font-size: clamp(0.68rem, 1.1vw, 0.85rem);
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    footer nav { display: flex; justify-content: flex-end; gap: 16px; }
+    footer a:hover { color: var(--teal); }
+
+    @media (max-width: 480px) {
+      footer { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+
+    <header>
+      <a href="/" class="mark" aria-label="yute home">
+        <svg viewBox="0 0 40 56" fill="none" role="img" aria-hidden="true">
+          <path d="M9 1.5 C 11.5 12, 15.5 19, 19.5 25.5" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <path d="M31.5 1 C 27 11, 23 19.5, 19.8 25.3" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <path d="M19.5 25.5 C 18 36, 15.5 45, 12.5 54.5" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <circle cx="32.5" cy="30" r="0.5" fill="var(--ink)"/>
+        </svg>
+      </a>
+      <nav>
+        <a href="/">yute</a>
+        <a href="/fraud">fraud</a>
+        <a href="https://yute.heuv.dev/docs">API docs</a>
+      </nav>
+    </header>
+
+    <main>
+
+      <div class="column intro" id="intro">
+        <span class="tag">yute enrich</span>
+        <h1>Your CRM already knows who your leads are. yute fills in the missing pieces.</h1>
+        <div class="after">
+          <p>One API call turns <code>maria.silva@acmecorp.com</code> into a real person: name, title, company, LinkedIn, current employer. Resolved with live web search at request time - so fields are fresh, not a provider database snapshot from last quarter.</p>
+          <p>Every email that comes back is SMTP-validated <strong>before</strong> it reaches the CRM: no bounces poisoning your sender reputation on the next outbound blast.</p>
+        </div>
+        <div class="cta-group">
+          <a class="cta" href="https://yute.heuv.dev/register">
+            <span>Hydrate 100 rows free - no card</span>
+            <svg class="cta__brush" viewBox="0 0 1711 244" preserveAspectRatio="none" aria-hidden="true">
+              <path fill="#73a89a" d="M18 96 C 160 68, 340 96, 520 80 C 740 60, 920 106, 1120 88 C 1320 70, 1480 110, 1690 84 C 1700 100, 1702 122, 1694 144 C 1480 168, 1320 128, 1120 150 C 920 172, 740 120, 520 146 C 340 168, 160 136, 24 158 C 10 136, 8 116, 18 96 Z"/>
+            </svg>
+          </a>
+          <a class="cta-secondary" href="https://yute.heuv.dev/docs">Read the API docs</a>
+        </div>
+      </div>
+
+      <div class="column topic" id="example">
+        <h2>One call, the whole row</h2>
+<pre>$ curl "https://yute.heuv.dev/v1/lookup?email=maria@acmecorp.com" <span class="sub">\
+  -H "Authorization: Bearer yute_sk_..."</span>
+
+{
+  "name":        "Maria Silva",
+  "role":        "Head of Sales",
+  "company":     { "domain": "acmecorp.com", "employees": "50-100" },
+  "linkedIn":    "linkedin.com/in/mariasilva",
+  "email_status": { "smtp": "deliverable", "catch_all": false },
+  "sources":     4,
+  "confidence":  0.87
+}</pre>
+        <p>Sync endpoint for single records. For lists, <code>POST /v1/enrich</code> queues an async job and webhooks you every resolved row - thousands at a time.</p>
+      </div>
+
+      <div class="column topic" id="pricing">
+        <h2>Priced like a meter, not a retainer</h2>
+        <table>
+          <thead>
+            <tr><th></th><th>Provider subscriptions</th><th>yute enrich</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Model</td><td>Flat monthly DB access</td><td>Per lookup</td></tr>
+            <tr><td>Misses</td><td>You still pay</td><td>Free</td></tr>
+            <tr><td>Freshness</td><td>Snapshot frequency</td><td>Live at request time</td></tr>
+            <tr><td>Email deliverability</td><td>Sold separately</td><td>Included</td></tr>
+            <tr><td>Bulk lists</td><td>Enterprise tier</td><td>Async jobs + webhooks</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="column qa" id="faq">
+        <div>
+          <h3>How is yute enrich different from Clearbit or Clay?</h3>
+          <p>Provider databases sell the same snapshot to thousands of companies - your CRM gets the same worn rows as everyone else's. yute resolves each query with live web search at request time, and you pay per lookup instead of a monthly subscription.</p>
+        </div>
+        <div>
+          <h3>What does enrichment cost?</h3>
+          <p>One credit per resolved lookup. Misses are free - you never pay for a person yute could not find. The first 100 lookups are free.</p>
+        </div>
+        <div>
+          <h3>Can I enrich a whole CRM list?</h3>
+          <p>Yes. <code>POST /v1/enrich</code> uploads the list as an async job and yute webhooks the enriched rows as they resolve.</p>
+        </div>
+        <div>
+          <h3>How do I start?</h3>
+          <p><a href="https://yute.heuv.dev/register">Create a free account</a> - your first 100 lookups are on us, no card needed.</p>
+        </div>
+      </div>
+
+    </main>
+
+    <footer>
+      <span>Copyright &copy; 2026 yute</span>
+      <nav aria-label="Footer">
+        <a href="/">yute</a>
+        <a href="mailto:hello@yute.io">hello[at]yute[dot]io</a>
+      </nav>
+    </footer>
+
+  </div>
+</body>
+</html>

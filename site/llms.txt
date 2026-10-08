@@ -7,6 +7,7 @@
 - Uses **web search** at request time instead of expensive per-credit data providers — cheaper and fresher.
 - Validates every email (format, domain, deliverability) before returning it, so customer lists stay clean and spam is reduced.
 - **Fraud and identity risk**: yute fraud returns signup-time identity signals (disposable email, domain age, name mismatch, missing web presence) so trust & safety teams can catch fake users before onboarding.
+- **CRM enrichment**: yute enrich resolves any email or domain into a fresh person/company profile (name, role, company, LinkedIn) for CRM hydration and outbound sales, with bulk async jobs and webhooks.
 - Built for developers: cURL-first, clean JSON, no SDK lock-in.
 
 # Key facts
@@ -19,6 +20,7 @@
 # Pages
 - [Home](https://yute.io/): Landing page with product overview, API example, and FAQ.
 - [Fraud / Identity risk](https://yute.io/fraud): Real-time identity risk signals at signup (vs background checks).
+- [Enrich / CRM hydration](https://yute.io/enrich): Person and company enrichment for CRM and outbound, via one API call.
 - [Register](https://yute.heuv.dev/register): Create a workspace (email + password, self-serve).
 - [Docs](https://yute.heuv.dev/docs): Public API documentation.
 
