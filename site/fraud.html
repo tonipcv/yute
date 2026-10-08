@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yute fraud — identity risk API for trust &amp; safety teams</title>
+  <meta name="description" content="yute fraud returns identity risk signals in real time - disposable emails, fresh domains, identity mismatch. Unlike background checks (Checkr-style), it works at signup: instant, consent-free, global, per-lookup pricing." />
+  <meta name="robots" content="index, follow, max-snippet:-1" />
+  <link rel="canonical" href="https://yute.io/fraud" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yute.io/fraud" />
+  <meta property="og:site_name" content="yute" />
+  <meta property="og:title" content="yute fraud — identity risk API" />
+  <meta property="og:description" content="Identity risk signals at signup, in real time. Instant, consent-free, global - the layer before background checks." />
+  <meta property="og:image" content="https://yute.io/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="yute fraud — identity risk API" />
+  <meta name="twitter:description" content="Identity risk signals at signup, in real time. Instant, consent-free, global." />
+  <meta name="twitter:image" content="https://yute.io/og.png" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f6f6f1" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://yute.io/fraud#app",
+        "name": "yute fraud",
+        "url": "https://yute.io/fraud",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "description": "Identity risk API: real-time fraud signals at signup - disposable email detection, domain age, identity mismatch, web presence checks. Instant, consent-free, global, per-lookup pricing.",
+        "publisher": { "@id": "https://yute.io/#organization" },
+        "featureList": [
+          "Identity risk signals in under a second at signup",
+          "Disposable and free-email detection",
+          "Domain age and MX checks on the claimed company",
+          "Name-to-email mismatch detection",
+          "Live web presence checks: does this person exist where they claim?",
+          "Per-lookup credits instead of per-report pricing"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://yute.io/fraud#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How is yute fraud different from a background check?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Background checks are slow, consent-based (FCRA in the US), and priced per report - built for employment screening. yute fraud answers the earlier question: is this signup real? It runs in under a second, needs no consent, works globally, and costs one credit per lookup." }
+          },
+          {
+            "@type": "Question",
+            "name": "What fraud signals does yute return?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Disposable or free email detection, domain age and MX validity for the claimed company, name-to-email mismatch, and live web presence: whether the person exists where they claim to - professional profiles, personal sites, press mentions." }
+          },
+          {
+            "@type": "Question",
+            "name": "How fast does it run?",
+            "acceptedAnswer": { "@type": "Answer", "text": "One API call at signup returns structured JSON with risk signals and sources in under a second, so you can block or flag before onboarding completes." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --sand: #ffffff;
+      --ink: #1f2322;
+      --teal: #73a89a;
+      --red: #c25b4e;
+      --text: clamp(17px, 0.55vw + 12px, 22px);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { background: var(--sand); }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--sand);
+      color: var(--ink);
+      font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: var(--text);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+
+    ::selection { background: var(--ink); color: var(--sand); }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+
+    .shell {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(16px, 3vw, 32px);
+    }
+
+    header { flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; }
+    header .mark { display: block; width: 26px; }
+    header .mark svg { display: block; width: 100%; height: auto; }
+    header nav { display: flex; gap: 16px; font-size: clamp(0.68rem, 1.1vw, 0.85rem); }
+    header nav a:hover { color: var(--teal); }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(72px, 9vw, 128px);
+      padding-top: clamp(56px, 9vw, 96px);
+    }
+
+    .column {
+      max-width: 41rem;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .intro { display: flex; flex-direction: column; gap: 1em; }
+    .intro h1 { font-size: inherit; line-height: inherit; font-weight: 600; }
+    .intro .tag { font-size: clamp(0.68rem, 1.1vw, 0.85rem); color: var(--red); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .intro .after { display: flex; flex-direction: column; gap: 1em; }
+    .accent { color: var(--teal); font-weight: 600; }
+    .flagged { color: var(--red); font-weight: 600; }
+
+    .cta {
+      margin: 24px auto 0;
+      display: inline-block;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: 600;
+      transition: color 160ms ease;
+    }
+    .cta:hover { color: var(--teal); }
+    .cta-group { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .cta-secondary { font-size: clamp(0.68rem, 1.1vw, 0.85rem); opacity: 0.75; }
+    .cta-secondary:hover { color: var(--teal); opacity: 1; }
+    .cta__brush {
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 4%;
+      width: 92%;
+      height: 0.7em;
+      rotate: -2.5deg;
+      pointer-events: none;
+    }
+
+    .topic { display: flex; flex-direction: column; gap: 1em; }
+    .topic h2 {
+      font-size: inherit;
+      font-weight: 600;
+      line-height: inherit;
+      letter-spacing: inherit;
+    }
+    .topic ul { list-style: none; display: flex; flex-direction: column; gap: 0.5em; }
+    .topic ul li { text-align: left; padding-left: 1.4em; position: relative; }
+    .topic ul li::before { content: "→"; position: absolute; left: 0; color: var(--teal); }
+
+    table { width: 100%; border-collapse: collapse; font-size: clamp(0.75rem, 1.2vw, 0.95rem); }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(31,35,34,0.12); }
+    th { font-weight: 600; }
+    td:first-child { color: rgba(31,35,34,0.65); }
+
+    .qa { display: flex; flex-direction: column; gap: clamp(40px, 5vw, 56px); }
+    .qa h3 {
+      font-size: inherit;
+      font-weight: 600;
+      line-height: inherit;
+      letter-spacing: inherit;
+      margin-bottom: 0.4em;
+    }
+
+    footer {
+      flex-shrink: 0;
+      padding-top: clamp(64px, 8vw, 96px);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 12px 32px;
+      font-size: clamp(0.68rem, 1.1vw, 0.85rem);
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    footer nav { display: flex; justify-content: flex-end; gap: 16px; }
+    footer a:hover { color: var(--teal); }
+
+    @media (max-width: 480px) {
+      footer { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+
+    <header>
+      <a href="/" class="mark" aria-label="yute home">
+        <svg viewBox="0 0 40 56" fill="none" role="img" aria-hidden="true">
+          <path d="M9 1.5 C 11.5 12, 15.5 19, 19.5 25.5" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <path d="M31.5 1 C 27 11, 23 19.5, 19.8 25.3" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <path d="M19.5 25.5 C 18 36, 15.5 45, 12.5 54.5" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <circle cx="32.5" cy="30" r="0.5" fill="var(--ink)"/>
+        </svg>
+      </a>
+      <nav>
+        <a href="/">yute</a>
+        <a href="https://yute.heuv.dev/docs">API docs</a>
+      </nav>
+    </header>
+
+    <main>
+
+      <div class="column intro" id="intro">
+        <span class="tag">yute fraud</span>
+        <h1>Know if a signup is real before it becomes a customer. One API call, risk signals in under a second.</h1>
+        <div class="after">
+          <p>Pass the email, name, and domain users give you. yute fraud answers with <span class="flagged">mismatches</span>, <span class="flagged">disposable emails</span>, <span class="flagged">freshly-registered domains</span>, and missing <span class="accent">web presence</span> - with the evidence it found, not just a score.</p>
+          <p>Background checks like Checkr answer a different question: what did this person do in the past? yute fraud answers the cheaper, earlier one: <strong>does this identity hold together right now?</strong></p>
+        </div>
+        <div class="cta-group">
+          <a class="cta" href="https://yute.heuv.dev/register">
+            <span>Try free - 100 lookups, no card</span>
+            <svg class="cta__brush" viewBox="0 0 1711 244" preserveAspectRatio="none" aria-hidden="true">
+              <path fill="#c25b4e" d="M18 96 C 160 68, 340 96, 520 80 C 740 60, 920 106, 1120 88 C 1320 70, 1480 110, 1690 84 C 1700 100, 1702 122, 1694 144 C 1480 168, 1320 128, 1120 150 C 920 172, 740 120, 520 146 C 340 168, 160 136, 24 158 C 10 136, 8 116, 18 96 Z"/>
+            </svg>
+          </a>
+          <a class="cta-secondary" href="https://yute.heuv.dev/docs">Read the API docs</a>
+        </div>
+      </div>
+
+      <div class="column topic" id="signals">
+        <h2>Signals you get, and why they catch fraud</h2>
+        <ul>
+          <li><strong>Email legitimacy</strong> - disposable, free vs corporate, SMTP deliverability. Bounce-heavy lists and throwaway signups die here.</li>
+          <li><strong>Domain age &amp; MX</strong> - the "company" someone claims was registered three weeks ago with no mail servers? Flagged.</li>
+          <li><strong>Identity match</strong> - does <em>maria.silva@acmecorp.com</em> look like the Maria Silva who exists on the professional web?</li>
+          <li><strong>Web presence</strong> - live search across profiles, personal sites, and press. Real people leave trails; fabricated identities don't.</li>
+          <li><strong>Evidence included</strong> - every signal comes with the sources behind it, so your trust team can audit, not guess.</li>
+        </ul>
+      </div>
+
+      <div class="column topic" id="how">
+        <h2>How it fits next to Checkr-style background checks</h2>
+        <p>Employment screening is designed, and legally shaped (FCRA, consent, turnaround, per-report fees), for <strong>hiring</strong>. Signup fraud needs the layer <strong>before</strong> that - at account creation, across marketplaces, fintech and free tiers - where the fastest way to lose money is a user who never existed.</p>
+        <table>
+          <thead>
+            <tr><th></th><th>Background check</th><th>yute fraud</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>When it runs</td><td>Before hire, post-consent</td><td>At signup, automatically</td></tr>
+            <tr><td>Speed</td><td>Hours to days</td><td>Under a second</td></tr>
+            <tr><td>Consent needed</td><td>Yes (FCRA)</td><td>No</td></tr>
+            <tr><td>Coverage</td><td>Mostly US/CAN</td><td>Global (web-first)</td></tr>
+            <tr><td>Pricing</td><td>Per report</td><td>Per lookup, free misses</td></tr>
+            <tr><td>Output</td><td>Criminal records</td><td>Risk signals + evidence</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="column qa" id="faq">
+        <div>
+          <h3>How is yute fraud different from a background check?</h3>
+          <p>Background checks are slow, consent-based, and priced per report - built for employment screening. yute fraud answers the earlier question: is this signup real? It runs in under a second, needs no consent, works globally, and costs one credit per lookup.</p>
+        </div>
+        <div>
+          <h3>What fraud signals does yute return?</h3>
+          <p>Disposable or free email detection, domain age and MX validity for the claimed company, name-to-email mismatch, and live web presence: whether the person exists where they claim to.</p>
+        </div>
+        <div>
+          <h3>How do I integrate it?</h3>
+          <p>One API call. <code>GET /v1/lookup?email=...</code> returns validated email, company, domain signals and web sources with evidence. Structured JSON, under a second.</p>
+        </div>
+        <div>
+          <h3>How do I start?</h3>
+          <p><a href="https://yute.heuv.dev/register">Create a free account</a> - your first 100 lookups are on us, no card needed.</p>
+        </div>
+      </div>
+
+    </main>
+
+    <footer>
+      <span>Copyright &copy; 2026 yute</span>
+      <nav aria-label="Footer">
+        <a href="/">yute</a>
+        <a href="mailto:hello@yute.io">hello[at]yute[dot]io</a>
+      </nav>
+    </footer>
+
+  </div>
+</body>
+</html>
