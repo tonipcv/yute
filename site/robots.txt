@@ -35,4 +35,4 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-Sitemap: https://yute.dev/sitemap.xml
+Sitemap: https://yute.io/sitemap.xml

@@ -1,6 +1,6 @@
 > Yute is a data router for developers ("data for developers"). It returns human, person-level data through a simple REST API. Instead of burning credits on traditional data providers, Yute resolves queries with live web search and validates every email address before delivery to reduce spam and bounces.
 
-> Primary language: English. Site: https://yute.dev/
+> Primary language: English. Site: https://yute.io/
 
 # What Yute does
 - Routes person-level data (name, email, role, company) to developer applications via one API endpoint.
@@ -11,14 +11,14 @@
 # Key facts
 - Company/product name: Yute
 - Category: Data API / Data router for developers
-- Website: https://yute.dev
+- Website: https://yute.io
 - Pricing model: pay per lookup, not per credit pool
 - Target users: developers building products that need person/company data
 
 # Pages
-- [Home](https://yute.dev/): Landing page with product overview, API example, and FAQ.
-- [Register](https://yute.dev/register): Create a workspace (email + password, self-serve).
-- [Docs](https://yute.dev/docs): Public API documentation.
+- [Home](https://yute.io/): Landing page with product overview, API example, and FAQ.
+- [Register](https://yute.heuv.dev/register): Create a workspace (email + password, self-serve).
+- [Docs](https://yute.heuv.dev/docs): Public API documentation.
 
 # Common questions
 Q: What is Yute?
