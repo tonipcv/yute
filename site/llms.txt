@@ -9,6 +9,7 @@
 - **Fraud and identity risk**: yute fraud returns signup-time identity signals (disposable email, domain age, name mismatch, missing web presence) so trust & safety teams can catch fake users before onboarding.
 - **CRM enrichment**: yute enrich resolves any email or domain into a fresh person/company profile (name, role, company, LinkedIn) for CRM hydration and outbound sales, with bulk async jobs and webhooks.
 - **KYB (Know Your Business)**: yute KYB verifies that a B2B company signing up actually exists and who is behind it - domain age, mail servers, registry/press traces and decision-makers - as a fast pre-filter before document-based review.
+- **Email health**: SMTP-level validation of any address (deliverability, disposable, catch-all, MX) so outbound campaigns avoid bounces; included in every enrichment lookup.
 - Built for developers: cURL-first, clean JSON, no SDK lock-in.
 
 # Key facts
@@ -23,6 +24,7 @@
 - [Fraud / Identity risk](https://yute.io/fraud): Real-time identity risk signals at signup (vs background checks).
 - [Enrich / CRM hydration](https://yute.io/enrich): Person and company enrichment for CRM and outbound, via one API call.
 - [KYB](https://yute.io/kyb): Business verification at B2B onboarding in one API call.
+- [Email health](https://yute.io/email-health): SMTP deliverability validation for outbound lists.
 - [Register](https://yute.heuv.dev/register): Create a workspace (email + password, self-serve).
 - [Docs](https://yute.heuv.dev/docs): Public API documentation.
 

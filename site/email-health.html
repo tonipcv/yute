@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yute email health — stop bounces before they burn your sender reputation</title>
+  <meta name="description" content="yute email health validates every address with real SMTP checks - disposable domains, catch-all detection, full deliverability - so your outbound hits inboxes instead of bounce logs. One credit per check, free misses." />
+  <meta name="robots" content="index, follow, max-snippet:-1" />
+  <link rel="canonical" href="https://yute.io/email-health" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yute.io/email-health" />
+  <meta property="og:site_name" content="yute" />
+  <meta property="og:title" content="yute email health — deliverability API" />
+  <meta property="og:description" content="SMTP-level validation: disposable domains, catch-all detection, full deliverability. Your outbound hits inboxes, not bounce logs." />
+  <meta property="og:image" content="https://yute.io/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="yute email health — deliverability API" />
+  <meta name="twitter:description" content="SMTP-level validation for clean lists and preserved sender reputation." />
+  <meta name="twitter:image" content="https://yute.io/og.png" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f6f6f1" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://yute.io/email-health#app",
+        "name": "yute email health",
+        "url": "https://yute.io/email-health",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "description": "Email deliverability API: SMTP-RCPT validation, disposable and catch-all detection, MX checks and deliverability verdicts on every address before you send. Per-lookup pricing, free misses.",
+        "publisher": { "@id": "https://yute.io/#organization" },
+        "featureList": [
+          "Real SMTP handshake validation - not just syntax or DNS",
+          "Disposable and free-provider detection",
+          "Catch-all domain detection and verdicts",
+          "MX presence and routing checks",
+          "Deliverability verdict with evidence on every address",
+          "Per-lookup credits; invalid addresses cost nothing"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://yute.io/email-health#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why does email validation matter for deliverability?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Mail providers (Gmail, Outlook, Yahoo) watch your bounce rate. Invalid addresses that bounce push your domain toward the spam folder for everyone - even valid recipients. Validating before send keeps the bounce rate low and sender reputation intact." }
+          },
+          {
+            "@type": "Question",
+            "name": "How is SMTP validation different from syntax checks?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Syntax and DNS checks only confirm an address looks valid. yute talks to the recipient's mail server the same way your campaign would and asks if the mailbox exists - catching invalid addresses, full inboxes, and catch-all domains that pretenders pass." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --sand: #ffffff;
+      --ink: #1f2322;
+      --teal: #73a89a;
+      --red: #c25b4e;
+      --text: clamp(17px, 0.55vw + 12px, 22px);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { background: var(--sand); }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--sand);
+      color: var(--ink);
+      font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: var(--text);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+
+    ::selection { background: var(--ink); color: var(--sand); }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+
+    .shell {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(16px, 3vw, 32px);
+    }
+
+    header { flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; }
+    header .mark { display: block; width: 26px; }
+    header .mark svg { display: block; width: 100%; height: auto; }
+    header nav { display: flex; gap: 16px; font-size: clamp(0.68rem, 1.1vw, 0.85rem); }
+    header nav a:hover { color: var(--teal); }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(72px, 9vw, 128px);
+      padding-top: clamp(56px, 9vw, 96px);
+    }
+
+    .column {
+      max-width: 41rem;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .intro { display: flex; flex-direction: column; gap: 1em; }
+    .intro h1 { font-size: inherit; line-height: inherit; font-weight: 600; }
+    .intro .tag { font-size: clamp(0.68rem, 1.1vw, 0.85rem); color: var(--teal); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .intro .after { display: flex; flex-direction: column; gap: 1em; }
+    .flagged { color: var(--red); font-weight: 600; }
+    .accent { color: var(--teal); font-weight: 600; }
+
+    .cta {
+      margin: 24px auto 0;
+      display: inline-block;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: 600;
+      transition: color 160ms ease;
+    }
+    .cta:hover { color: var(--teal); }
+    .cta-group { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .cta-secondary { font-size: clamp(0.68rem, 1.1vw, 0.85rem); opacity: 0.75; }
+    .cta-secondary:hover { color: var(--teal); opacity: 1; }
+    .cta__brush {
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 4%;
+      width: 92%;
+      height: 0.7em;
+      rotate: -2.5deg;
+      pointer-events: none;
+    }
+
+    .topic { display: flex; flex-direction: column; gap: 1em; }
+    .topic h2 {
+      font-size: inherit;
+      font-weight: 600;
+      line-height: inherit;
+      letter-spacing: inherit;
+    }
+    .topic ul { list-style: none; display: flex; flex-direction: column; gap: 0.5em; }
+    .topic ul li { text-align: left; padding-left: 1.4em; position: relative; }
+    .topic ul li::before { content: "→"; position: absolute; left: 0; color: var(--teal); }
+
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: clamp(0.72rem, 1.15vw, 0.9rem);
+      line-height: 1.5;
+    }
+    pre {
+      text-align: left;
+      background: rgba(31,35,34,0.92);
+      color: #e8ede7;
+      border-radius: 10px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: clamp(0.75rem, 1.2vw, 0.95rem); }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(31,35,34,0.12); }
+    th { font-weight: 600; }
+    td:first-child { color: rgba(31,35,34,0.65); }
+
+    .qa { display: flex; flex-direction: column; gap: clamp(40px, 5vw, 56px); }
+    .qa h3 {
+      font-size: inherit;
+      font-weight: 600;
+      line-height: inherit;
+      letter-spacing: inherit;
+      margin-bottom: 0.4em;
+    }
+
+    footer {
+      flex-shrink: 0;
+      padding-top: clamp(64px, 8vw, 96px);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 12px 32px;
+      font-size: clamp(0.68rem, 1.1vw, 0.85rem);
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    footer nav { display: flex; justify-content: flex-end; gap: 16px; }
+    footer a:hover { color: var(--teal); }
+
+    @media (max-width: 480px) {
+      footer { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+
+    <header>
+      <a href="/" class="mark" aria-label="yute home">
+        <svg viewBox="0 0 40 56" fill="none" role="img" aria-hidden="true">
+          <path d="M9 1.5 C 11.5 12, 15.5 19, 19.5 25.5" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <path d="M31.5 1 C 27 11, 23 19.5, 19.8 25.3" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <path d="M19.5 25.5 C 18 36, 15.5 45, 12.5 54.5" stroke="var(--ink)" stroke-width="5.2" stroke-linecap="round"/>
+          <circle cx="32.5" cy="30" r="0.5" fill="var(--ink)"/>
+        </svg>
+      </a>
+      <nav>
+        <a href="/">yute</a>
+        <a href="/fraud">fraud</a>
+        <a href="/enrich">enrich</a>
+        <a href="/kyb">kyb</a>
+        <a href="https://yute.heuv.dev/docs">API docs</a>
+      </nav>
+    </header>
+
+    <main>
+
+      <div class="column intro" id="intro">
+        <span class="tag">yute email health</span>
+        <h1>Every bounce teaches Gmail your list isn't good. Stop teaching it.</h1>
+        <div class="after">
+          <p>yute email health validates each address the honest way: <span class="accent">real SMTP handshake</span> with the recipient's server - catching <span class="flagged">invalid mailboxes</span>, <span class="flagged">disposable domains</span>, and <span class="flagged">catch-all traps</span> that syntax checkers wave through.</p>
+          <p>One credit per valid address. Invalid ones cost nothing. Included free in every lookup yute runs, so enriched data and deliverability come together.</p>
+        </div>
+        <div class="cta-group">
+          <a class="cta" href="https://yute.heuv.dev/register">
+            <span>Clean your first 1k list free</span>
+            <svg class="cta__brush" viewBox="0 0 1711 244" preserveAspectRatio="none" aria-hidden="true">
+              <path fill="#73a89a" d="M18 96 C 160 68, 340 96, 520 80 C 740 60, 920 106, 1120 88 C 1320 70, 1480 110, 1690 84 C 1700 100, 1702 122, 1694 144 C 1480 168, 1320 128, 1120 150 C 920 172, 740 120, 520 146 C 340 168, 160 136, 24 158 C 10 136, 8 116, 18 96 Z"/>
+            </svg>
+          </a>
+          <a class="cta-secondary" href="https://yute.heuv.dev/docs">Read the API docs</a>
+        </div>
+      </div>
+
+      <div class="column topic" id="example">
+        <h2>The verdict, before the send</h2>
+<pre>$ curl "https://yute.heuv.dev/v1/validate?email=ceo@forward-supply.com"
+
+{
+  "email":       "ceo@forward-supply.com",
+  "syntax":      "valid",
+  "mx":          "valid",
+  "smtp":        "deliverable",
+  "catch_all":   false,
+  "disposable":  false
+}</pre>
+        <p>Wire it before every campaign blast or signup confirmation - an address with a bad verdict never reaches your send queue.</p>
+      </div>
+
+      <div class="column topic" id="signals">
+        <h2>What the verdict covers</h2>
+        <ul>
+          <li><strong>Syntax&nbsp;and&nbsp;MX</strong> - that the domain exists and is pointed at a mail server worth talking to.</li>
+          <li><strong>SMTP&nbsp;handshake</strong> - the same RCPT conversation your campaign would have, so invalid mailboxes are caught at validation time, not bounce time.</li>
+          <li><strong>Catch-all detection</strong> - domains that accept everything to avoid detection; yute flags their risk instead of vouching for them.</li>
+          <li><strong>Disposable providers</strong> - the mailbox that works right now and dies by Friday.</li>
+          <li><strong>Deliverability verdict</strong> - one clear signal per address, with the evidence behind it for auditors and post-mortems.</li>
+        </ul>
+      </div>
+
+      <div class="column topic" id="compare">
+        <h2>Syntax checkers vs yute</h2>
+        <table>
+          <thead>
+            <tr><th></th><th>Syntax/DNS checkers</th><th>yute email health</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Validates at</td><td>String level</td><td>Real SMTP server level</td></tr>
+            <tr><td>Catch-all domains</td><td>Pass as valid</td><td>Flagged with risk context</td></tr>
+            <tr><td>Effect on sender reputation</td><td>Bounces still happen</td><td>Bounces removed pre-send</td></tr>
+            <tr><td>Bundled with</td><td>Nothing</td><td>Every enrichment lookup</td></tr>
+            <tr><td>Pricing</td><td>Per email, pre-paid packs</td><td>Per lookup, free misses</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="column qa" id="faq">
+        <div>
+          <h3>Why does email validation matter for deliverability?</h3>
+          <p>Mail providers watch your bounce rate. Invalid addresses that bounce push your domain toward the spam folder for everyone - even valid recipients. Validating before send keeps the bounce rate low and sender reputation intact.</p>
+        </div>
+        <div>
+          <h3>How is SMTP validation different from syntax checks?</h3>
+          <p>Syntax and DNS checks only confirm an address looks valid. yute talks to the recipient's mail server the same way your campaign would and asks if the mailbox exists - catching invalid addresses, and catch-all domains that syntax checks wave through.</p>
+        </div>
+        <div>
+          <h3>How do I start?</h3>
+          <p><a href="https://yute.heuv.dev/register">Create a free account</a> - your first 100 lookups are on us, no card needed.</p>
+        </div>
+      </div>
+
+    </main>
+
+    <footer>
+      <span>Copyright &copy; 2026 yute</span>
+      <nav aria-label="Footer">
+        <a href="/">yute</a>
+        <a href="mailto:hello@yute.io">hello[at]yute[dot]io</a>
+      </nav>
+    </footer>
+
+  </div>
+</body>
+</html>
