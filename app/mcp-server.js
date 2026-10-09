@@ -15,7 +15,7 @@
  */
 const readline = require("node:readline");
 
-const API_BASE = (process.env.YUTE_API_BASE_URL || "https://yute.heuv.dev").replace(/\/$/, "");
+const API_BASE = (process.env.YUTE_API_BASE_URL || "https://app.yute.io").replace(/\/$/, "");
 const API_KEY = process.env.YUTE_API_KEY;
 const PROTOCOL_VERSION = "2025-06-18";
 

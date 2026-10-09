@@ -71,7 +71,7 @@ Connect from Claude Desktop or any MCP client:
 }
 ```
 
-Env: `YUTE_API_KEY` (required), `YUTE_API_BASE_URL` (optional, default `https://yute.heuv.dev`).
+Env: `YUTE_API_KEY` (required), `YUTE_API_BASE_URL` (optional, default `https://app.yute.io`).
 
 ## Repository layout
 
